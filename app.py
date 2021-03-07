@@ -19,6 +19,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['JWT_SECRET_KEY'] = os.environ.get('JWT_KEY')
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=24)
 
+db.init_app(app)
 api = Api(app)
 jwt = JWTManager(app)
 
@@ -26,4 +27,7 @@ jwt = JWTManager(app)
 # here
 
 if __name__ == '__main__':
-    app.run(port=os.environ.get('PORT'), debug=os.environ.get('DEBUG'))
+    app.run(
+        port=os.environ.get('PORT'), 
+        debug=os.environ.get('DEBUG')
+    )
