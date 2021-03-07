@@ -32,5 +32,9 @@ class ProductModel(db.Model):
         return cls.query.get(_id)
 
     @classmethod
+    def find_by_name(cls, rol):
+        return cls.query.filter_by(rol=rol).first()
+
+    @classmethod
     def find_all(cls):
         return cls.query.all()

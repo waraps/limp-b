@@ -42,6 +42,10 @@ class InvoiceModel(db.Model):
         return cls.query.get(_id)
 
     @classmethod
+    def find_by_code(cls, code):
+        return cls.query.filter_by(code=code).first()
+
+    @classmethod
     def find_all(cls):
         return cls.query.all()
     

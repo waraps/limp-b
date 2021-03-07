@@ -9,7 +9,7 @@ class ClientModel(db.Model):
     lastname = db.Column(db.String(80), nullable=False, required=True)
     mail = db.Column(db.String(120), nullable=False)
     phone = db.Column(db.String(80), nullable=False)
-    dni = db.Column(db.String(80), nullable=False, required=True)
+    dni = db.Column(db.String(80), nullable=False, required=True, unique=True)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
@@ -38,6 +38,10 @@ class ClientModel(db.Model):
     @classmethod
     def find_by_id(cls, _id):
         return cls.query.get(_id)
+
+    @classmethod
+    def find_by_dni(cls, dni):
+        return cls.query.filter_by(dni=dni).first()
 
     @classmethod
     def find_all(cls):

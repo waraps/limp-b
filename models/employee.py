@@ -43,5 +43,9 @@ class EmployeeModel(db.Model):
         return cls.query.get(_id)
 
     @classmethod
+    def find_by_dni(cls, dni):
+        return cls.query.filter_by(dni=dni).first()
+
+    @classmethod
     def find_all(cls):
         return cls.query.all()

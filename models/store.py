@@ -7,8 +7,9 @@ class StoreModel(db.Model):
     __tablename__ = 'store'
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(120), nullable=False)
+    name = db.Column(db.String(120), unique=True, nullable=False)
     address = db.Column(db.String(120), nullable=False)
+    mail = db.Column(db.String(120), nullable=False)
     phone = db.column(db.String(80), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
@@ -22,6 +23,7 @@ class StoreModel(db.Model):
             'id': self.id,
             'name': self.name,
             'address': self.address,
+            'mail': self.mail,
             'phone': self.phone,
             'created_at': self.created_at,
             'updated_at': self.updated_at
@@ -40,5 +42,9 @@ class StoreModel(db.Model):
         return cls.query.get(_id)
 
     @classmethod
-    def find_by_id(cls):
+    def find_by_name(cls, rol):
+        return cls.query.filter_by(rol=rol).first()
+
+    @classmethod
+    def find_all(cls):
         return cls.query.all()
