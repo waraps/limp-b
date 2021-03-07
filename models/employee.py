@@ -5,18 +5,18 @@ class EmployeeModel(db.Model):
     __tablename__ = 'employee'
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(80), nullable=False, required=True)
-    lastname = db.Column(db.String(80), nullable=False, required=True)
-    mail = db.Column(db.String(120), nullable=False, unique=True, required=True)
-    phone = db.Column(db.String(80), nullable=False, required=True)
-    dni = db.Column(db.String(80), nullable=False, unique=True, required=True)
+    name = db.Column(db.String(80), nullable=False)
+    lastname = db.Column(db.String(80), nullable=False)
+    mail = db.Column(db.String(120), nullable=False, unique=True)
+    phone = db.Column(db.String(80), nullable=False)
+    dni = db.Column(db.String(80), nullable=False, unique=True)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     
     rol_id = db.Column(db.Integer, db.ForeignKey('rol.id'))
     store_id = db.Column(db.Integer, db.ForeignKey('store.id'))
 
-    invoices = db.relationship('InvoiceModel', db.backref='employee', lazy='dynamic')
+    invoices = db.relationship('InvoiceModel', backref=db.backref('employee'), lazy='dynamic')
 
     def json(self):
         return {

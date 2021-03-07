@@ -5,11 +5,11 @@ class RateModel(db.Model):
     __tablename__ = 'rate'
 
     id = db.Column(db.Integer, primary_key=True)
-    rate = db.Column(db.Float(precision=2), nullable=False, required=True)
+    rate = db.Column(db.Float(precision=2), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
-    invoices = db.relationship('InvoiceModel', db.backref='rate', lazy='dynamic')
+    invoices = db.relationship('InvoiceModel', backref=db.backref('rate'), lazy='dynamic')
 
     def json(self):
         return {

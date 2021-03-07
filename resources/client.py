@@ -42,7 +42,7 @@ class Client(Resource):
             return {'message': 'Ya existe un cliente con cedula {}'.format(dni)}, 400
         
         data = Client.parser.parse_args()
-        client = ClientModel(**data, dni)
+        client = ClientModel(dni, **data)
 
         try:
             client.save_to_db()

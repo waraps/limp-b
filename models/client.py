@@ -5,15 +5,15 @@ class ClientModel(db.Model):
     __tablename__ = 'client'
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(80), nullable=False, required=True)
-    lastname = db.Column(db.String(80), nullable=False, required=True)
+    name = db.Column(db.String(80), nullable=False)
+    lastname = db.Column(db.String(80), nullable=False)
     mail = db.Column(db.String(120), nullable=False)
     phone = db.Column(db.String(80), nullable=False)
-    dni = db.Column(db.String(80), nullable=False, required=True, unique=True)
+    dni = db.Column(db.String(80), nullable=False, unique=True)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
-    invoices = db.relationship('InvoiceModel', db.backref='client', lazy='dynamic')
+    invoices = db.relationship('InvoiceModel', backref=db.backref('client'), lazy='dynamic')
 
     def json(self):
         return {

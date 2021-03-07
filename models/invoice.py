@@ -1,15 +1,15 @@
 from datetime import datetime
 from db import db
 
-from invoice_product import invoice_product
+from models.invoice_product import invoice_product
 
 class InvoiceModel(db.Model):
     __tablename__ = 'invoice'
 
     id = db.Column(db.Integer, primary_key=True)
-    code = db.Column(db.String(15), nullable=False, required=True)
-    mount = db.Column(db.Float(precision=2), nullable=False, required=True)
-    status = db.Column(db.Boolean, nullable=False, required=True)
+    code = db.Column(db.String(15), nullable=False)
+    mount = db.Column(db.Float(precision=2), nullable=False)
+    status = db.Column(db.Boolean, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
@@ -17,7 +17,7 @@ class InvoiceModel(db.Model):
     employee_id = db.Column(db.Integer, db.ForeignKey('employee.id'))
     rate_id = db.Column(db.Integer, db.ForeignKey('rate.id'))
 
-    products = db.relationship('ProductModel', secondary=invoice_product, db.backref="products")
+    products = db.relationship('ProductModel', secondary=invoice_product, backref=db.backref("products"))
 
     def json(self):
         return {

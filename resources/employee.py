@@ -52,7 +52,7 @@ class Employee(Resource):
             return {'message': 'Ya existe un empleado con cedula {}'.format(dni)}, 400
         
         data = Employee.parser.parse_args()
-        employee = EmployeeModel(**data, dni)
+        employee = EmployeeModel(dni, **data)
 
         try:
             employee.save_to_db()

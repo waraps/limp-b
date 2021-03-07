@@ -1,7 +1,7 @@
 from datetime import datetime
 from db import db
 
-from store_product import store_product
+from models.store_product import store_product
 
 class StoreModel(db.Model):
     __tablename__ = 'store'
@@ -10,13 +10,13 @@ class StoreModel(db.Model):
     name = db.Column(db.String(120), unique=True, nullable=False)
     address = db.Column(db.String(120), nullable=False)
     mail = db.Column(db.String(120), nullable=False)
-    phone = db.column(db.String(80), nullable=False)
+    phone = db.Column(db.String(80), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
-    employees = db.relationship('EmployeeModel', db.backref='store', lazy='dynamic')
-    products = db.relationship('ProductModel', secondary=store_product, db.backref="products")
-    invoices = db.relationship('InvoiceModel', db.backref='store', lazy='dynamic')
+    employees = db.relationship('EmployeeModel', backref=db.backref('store'), lazy='dynamic')
+    products = db.relationship('ProductModel', secondary=store_product, backref=db.backref("products"))
+    invoices = db.relationship('InvoiceModel', backref=db.backref('store'), lazy='dynamic')
 
     def json(self):
         return {

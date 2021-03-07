@@ -5,8 +5,8 @@ class ProductModel(db.Model):
     __tablename__ = 'product'
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(80), nullable=False, required=True, unique=True)
-    price = db.Column(db.Float(precision=2), nullable=False, required=True)
+    name = db.Column(db.String(80), nullable=False, unique=True)
+    price = db.Column(db.Float(precision=2), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
@@ -24,7 +24,7 @@ class ProductModel(db.Model):
         db.session.commit()
 
     def delete_from_db(self):
-        db.session.add(self):
+        db.session.add(self)
         db.session.commit(self)
 
     @classmethod

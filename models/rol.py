@@ -5,11 +5,11 @@ class RolModel(db.Model):
     __tablename__ = 'rol'
 
     id = db.Column(db.Integer, primary_key=True)
-    rol = db.Column(db.String(80), Integer, unique=True, nullable=False)
+    rol = db.Column(db.String(80), unique=True, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
-    employee = db.relationship('EmployeeModel', db.backref='rol', lazy='dynamic')
+    employee = db.relationship('EmployeeModel', backref=db.backref('rol'), lazy='dynamic')
 
     def json(self):
         return {

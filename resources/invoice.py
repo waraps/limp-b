@@ -47,7 +47,7 @@ class Invoice(Resource):
             return {'message': 'Ya existe un factura con codigo {}'.format(code)}, 400
         
         data = Invoice.parser.parse_args()
-        invoice = InvoiceModel(**data, code)
+        invoice = InvoiceModel(code, **data)
 
         try:
             invoice.save_to_db()
