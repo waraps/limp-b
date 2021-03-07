@@ -5,6 +5,7 @@ from flask import Flask
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
 from db import db
+from flask_migrate import Migrate
 
 # Resources
 # imports here
@@ -20,6 +21,7 @@ app.config['JWT_SECRET_KEY'] = os.environ.get('JWT_KEY')
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=24)
 
 db.init_app(app)
+migrate = Migrate(app, db)
 api = Api(app)
 jwt = JWTManager(app)
 
