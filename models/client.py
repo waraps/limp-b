@@ -15,6 +15,10 @@ class ClientModel(db.Model):
 
     invoices = db.relationship('InvoiceModel', backref=db.backref('client'), lazy='dynamic')
 
+    def __repr__(self):
+        return "<Client(id='%s' name='%s', lastname='%s', dni='%s')>" % (
+                                self.id, self.name, self.lastname, self.dni)
+
     def json(self):
         return {
             'id': self.id,

@@ -15,9 +15,10 @@ class InvoiceModel(db.Model):
 
     tienda_id = db.Column(db.Integer, db.ForeignKey('store.id'))
     employee_id = db.Column(db.Integer, db.ForeignKey('employee.id'))
+    client_id = db.Column(db.Integer, db.ForeignKey('client.id'))
     rate_id = db.Column(db.Integer, db.ForeignKey('rate.id'))
 
-    products = db.relationship('ProductModel', secondary=invoice_product, backref=db.backref("products"))
+    products = db.relationship('ProductModel', secondary=invoice_product, backref=db.backref("product"))
 
     def json(self):
         return {

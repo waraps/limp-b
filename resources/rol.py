@@ -1,20 +1,27 @@
-from flask_restful import Resource
+from flask_restful import Resource, reqparse
 
 # Models
 from models.rol import RolModel
 
 class Rol(Resource):
+    parser = reqparse.RequestParser()
+    parser.add_argument('rol',
+        type=str,
+        required=True,
+        help='El campo nombre no puede estar vacio'
+    )
     def get(self, _id):
         rol = RolModel.find_by_id(_id)
         if rol:
             return rol.json(), 200
         return {'message': 'Rol no encontrado'}, 404
 
-    def post(self, name):
-        if RolModel.find_by_name(name):
-            return {'message': 'Ya existe un rol {}'.format(name)}, 400
+    def post(self):
+        data = Rol.parser.parse_args()
+        if RolModel.find_by_name(data['rol']):
+            return {'message': 'Ya existe un rol {}'.format(data['rol'])}, 400
 
-        rol = RolModel(name)
+        rol = RolModel(rol=data['rol'])
 
         try:
             rol.save_to_db()
@@ -30,7 +37,7 @@ class Rol(Resource):
         if rol is None:
             rol = RolModel(updated_rol)
         else:
-            rol.rol = updated_rol['name']
+            rol.rol = updated_rol['rol']
         
         try:
             rol.save_to_db()

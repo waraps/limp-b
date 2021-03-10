@@ -11,6 +11,10 @@ class RolModel(db.Model):
 
     employee = db.relationship('EmployeeModel', backref=db.backref('rol'), lazy='dynamic')
 
+    def __repr__(self):
+        return "<Rol(id='%s' rol='%s', created_at='%s')>" % (
+                                self.id, self.rol, self.created_at)
+
     def json(self):
         return {
             'id': self.id,
@@ -20,8 +24,9 @@ class RolModel(db.Model):
         }
     
     def save_to_db(self):
-        db.session.add(self)
-        db.sessioncommit()
+        print(self)
+        # db.session.add(self)
+        # db.session.commit()
 
     def delete_from_db(self):
         db.session.delete(self)
