@@ -15,7 +15,7 @@ class StoreModel(db.Model):
         return {
             'id': self.id, 
             'name': self.name,
-            #'created_at': self.created_at
+            'created_at': self.created_at.strftime("%d/%m/%Y %H:%M:%S")
         }
 
     @classmethod
