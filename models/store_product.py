@@ -1,7 +1,13 @@
+from datetime import datetime
 from db import db
 
-store_product = db.Table('store_product', db.metadata,
-    db.Column('store_id', db.Integer, db.ForeignKey('store.id')),
-    db.Column('product_id', db.Integer, db.ForeignKey('product.id')),
-    db.Column('stock', db.Float(precision=2), nullable=False)
-)
+class StoreProductModel(db.Model):
+    __tablename__ = 'store_product'
+
+    store_id = db.Column(db.Integer, db.ForeignKey('store.id'), primary_key=True)
+    product_id = db.Column(db.Integer, db.ForeignKey('product.id'), primary_key=True)
+    stock = db.Column('stock', db.Float(precision=2), nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    store = db.relationship('StoreModel', backref=db.backref('store_product'))
+    products = db.relationship('ProductModel', backref=db.backref('store_product'))

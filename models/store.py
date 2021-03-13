@@ -1,8 +1,6 @@
 from datetime import datetime
 from db import db
 
-from models.store_product import store_product
-
 class StoreModel(db.Model):
     __tablename__ = 'store'
 
@@ -15,7 +13,6 @@ class StoreModel(db.Model):
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
     employees = db.relationship('EmployeeModel', backref=db.backref('store'), lazy='dynamic')
-    products = db.relationship('ProductModel', secondary=store_product, backref=db.backref("products"))
     invoices = db.relationship('InvoiceModel', backref=db.backref('store'), lazy='dynamic')
 
     def __repr__(self):
