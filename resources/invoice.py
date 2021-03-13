@@ -42,12 +42,12 @@ class Invoice(Resource):
             return invoice.json()
         return {'message': 'Factura no encontrada'}, 404
 
-    def post(self, code):
-        if InvoiceModel.find_by_code(code):
-            return {'message': 'Ya existe un factura con codigo {}'.format(code)}, 400
-        
+    def post(self):
         data = Invoice.parser.parse_args()
-        invoice = InvoiceModel(code, **data)
+        if InvoiceModel.find_by_code(data['code']):
+            return {'message': 'Ya existe un factura con codigo {}'.format(data['code'])}, 400
+        
+        invoice = InvoiceModel(**data)
 
         try:
             invoice.save_to_db()

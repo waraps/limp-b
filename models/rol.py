@@ -19,14 +19,13 @@ class RolModel(db.Model):
         return {
             'id': self.id,
             'rol': self.rol,
-            'created_at': self.created_at,
-            'updated_at': self.updated_at
+            'created_at': self.created_at.strftime("%d/%m/%Y %H:%M:%S"),
+            'updated_at': self.updated_at.strftime("%d/%m/%Y %H:%M:%S")
         }
     
     def save_to_db(self):
-        print(self)
-        # db.session.add(self)
-        # db.session.commit()
+        db.session.add(self)
+        db.session.commit()
 
     def delete_from_db(self):
         db.session.delete(self)

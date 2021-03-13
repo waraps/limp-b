@@ -17,8 +17,6 @@ from resources.client import Client, ClientList
 from resources.invoice import Invoice, InvoiceList
 from resources.rate import Rate, RateList
 
-from resources.model_test import ModelTestResource
-
 app = Flask(__name__)
 
 # Configs
@@ -39,25 +37,23 @@ migrate = Migrate(app, db)
 api.add_resource(Rol, '/api/v2/rol/<int:_id>', '/api/v2/rol')
 api.add_resource(RolList, '/api/v2/roles')
 
-api.add_resource(Store, '/api/v2/store/<int:_id>')
+api.add_resource(Store, '/api/v2/store/<int:_id>', '/api/v2/store')
 api.add_resource(StoreList, '/api/v2/stores')
 
-api.add_resource(Employee, '/api/v2/employee/<int:_id>')
+api.add_resource(Employee, '/api/v2/employee/<int:_id>', '/api/v2/employee')
 api.add_resource(EmployeeList, '/api/v2/employees')
 
-api.add_resource(Product, '/api/v2/product/<int:_id>')
+api.add_resource(Product, '/api/v2/product/<int:_id>', '/api/v2/product')
 api.add_resource(ProductList, '/api/v2/products')
 
-api.add_resource(Client, '/api/v2/client/<int:_id>')
+api.add_resource(Client, '/api/v2/client/<int:_id>', '/api/v2/client')
 api.add_resource(ClientList, '/api/v2/clients')
 
-api.add_resource(Rate, '/api/v2/rate/<int:_id>')
+api.add_resource(Rate, '/api/v2/rate/<int:_id>', '/api/v2/rate')
 api.add_resource(RateList, '/api/v2/rates')
 
-api.add_resource(Invoice, '/api/v2/invoice/<int:_id>')
+api.add_resource(Invoice, '/api/v2/invoice/<int:_id>', '/api/v2/invoice')
 api.add_resource(InvoiceList, '/api/v2/invoices')
-
-api.add_resource(ModelTestResource, '/api/v2/test')
 
 if __name__ == '__main__':
     app.run(

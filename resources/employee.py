@@ -47,12 +47,12 @@ class Employee(Resource):
             return employee.json()
         return {'message': 'Empleado no encontrado'}, 404
 
-    def post(self, dni):
-        if EmployeeModel.find_by_dni(dni):
-            return {'message': 'Ya existe un empleado con cedula {}'.format(dni)}, 400
-        
+    def post(self):
         data = Employee.parser.parse_args()
-        employee = EmployeeModel(dni, **data)
+        if EmployeeModel.find_by_dni(data['dni']):
+            return {'message': 'Ya existe un empleado con cedula {}'.format(data['dni'])}, 400
+        
+        employee = EmployeeModel(**data)
 
         try:
             employee.save_to_db()

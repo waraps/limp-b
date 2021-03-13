@@ -22,12 +22,12 @@ class Product(Resource):
             return product_id.json(), 200
         return {'message': 'Producto no encontrado'}, 404
 
-    def post(self, name):
-        if ProductModel.find_by_name(name):
-            return {'message': 'Ya existe un producto con el nombre {}'.format(name)}, 400
-
+    def post(self):
         data = Product.parser.parse_args()
-        product = ProductModel(name, **data)
+        if ProductModel.find_by_name(data['name']):
+            return {'message': 'Ya existe un producto con el nombre {}'.format(data['name'])}, 400
+
+        product = ProductModel(**data)
 
         try:
             product.save_to_db()

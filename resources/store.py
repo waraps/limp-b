@@ -32,12 +32,12 @@ class Store(Resource):
             return store.json()
         return {'message': 'Tienda no encontrada'}, 404
 
-    def post(self, name):
-        if StoreModel.find_by_name(name):
-            return {'message': 'Ya existe una tienda con nombre {}'.format(name)}, 400
-        
+    def post(self):
         data = Store.parser.parse_args()
-        store = StoreModel(name, **data)
+        if StoreModel.find_by_name(data['name']):
+            return {'message': 'Ya existe una tienda con nombre {}'.format(data['name'])}, 400
+        
+        store = StoreModel(**data)
 
         try:
             store.save_to_db()

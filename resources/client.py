@@ -37,12 +37,12 @@ class Client(Resource):
             return client.json()
         return {'message': 'Cliente no encontrado'}, 404
 
-    def post(self, dni):
-        if ClientModel.find_by_dni(dni):
-            return {'message': 'Ya existe un cliente con cedula {}'.format(dni)}, 400
-        
+    def post(self):
         data = Client.parser.parse_args()
-        client = ClientModel(dni, **data)
+        if ClientModel.find_by_dni(data['dni']):
+            return {'message': 'Ya existe un cliente con cedula {}'.format(data['dni'])}, 400
+        
+        client = ClientModel(**data)
 
         try:
             client.save_to_db()

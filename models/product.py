@@ -15,8 +15,8 @@ class ProductModel(db.Model):
             'id': self.id,
             'name': self.name,
             'price': self.price,
-            'created_at': self.created_at,
-            'updated_at': self.updated_at
+            'created_at': self.created_at.strftime("%d/%m/%Y %H:%M:%S"),
+            'updated_at': self.updated_at.strftime("%d/%m/%Y %H:%M:%S")
         }
 
     def save_to_db(self):
@@ -32,8 +32,8 @@ class ProductModel(db.Model):
         return cls.query.get(_id)
 
     @classmethod
-    def find_by_name(cls, rol):
-        return cls.query.filter_by(rol=rol).first()
+    def find_by_name(cls, name):
+        return cls.query.filter_by(name=name).first()
 
     @classmethod
     def find_all(cls):

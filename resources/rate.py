@@ -18,7 +18,7 @@ class Rate(Resource):
 
     def post(self):
         data = Rate.parser.parse_args()
-        rate = RateModel(data)
+        rate = RateModel(**data)
 
         try:
             rate.save_to_db()
