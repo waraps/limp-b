@@ -2,6 +2,7 @@ from flask_restful import Resource, reqparse
 
 # Models
 from models.store import StoreModel
+from models.store_product import StoreProductModel
 
 class Store(Resource):
     parser = reqparse.RequestParser()
@@ -80,3 +81,50 @@ class Store(Resource):
 class StoreList(Resource):
     def get(self):
         return {'stores': [store.json() for store in StoreModel.find_all()]}
+
+
+class StoreProduct(Resource):
+    parser = reqparse.RequestParser()
+    parser.add_argument('store_id',
+        type=int,
+        required=True,
+        help='El campo store_id no puede estar vacio'
+    )
+    parser.add_argument('product_id',
+        type=int,
+        required=True,
+        help='El campo product_id no puede estar vacio'
+    )
+    parser.add_argument('stock',
+        type=str,
+        required=True,
+        help='El campo stock no puede estar vacio'
+    )
+
+    def get(self, _id):        
+        store_product = StoreProductModel.find_by_id(_id)
+        if store_product:
+            return store_product.json(), 200
+        return {'message': 'Producto en tienda no encontrado'}, 404
+
+    def post(self):
+        data = StoreProduct.parser.parse_args()
+        response = StoreProductModel.find_by_composite_id(data['store_id'], data['product_id'])
+        if response:
+            print(data)
+            print(response)
+            return {'message': 'Ya existe un producto con el id {} en la tienda {}'.format(data['product_id'],data['store_id'])}
+        
+        store_product = StoreProductModel(**data)
+
+        try:
+            store_product.save_to_db()
+        except:
+            return {'message': 'Ocurrio un error al tratar de guardar el producto'}, 500
+        
+        return store_product.json()
+
+
+class StoreProductList(Resource):
+    def get(self):
+        return {'products': [store_product.json() for store_product in StoreProductModel.find_all()]}, 200

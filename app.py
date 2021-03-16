@@ -11,7 +11,7 @@ from flask_migrate import Migrate
 # Resources
 from resources.rol import Rol, RolList
 from resources.employee import Employee, EmployeeList
-from resources.store import Store, StoreList
+from resources.store import Store, StoreList, StoreProduct, StoreProductList
 from resources.product import Product, ProductList
 from resources.client import Client, ClientList
 from resources.invoice import Invoice, InvoiceList
@@ -40,11 +40,14 @@ api.add_resource(RolList, '/api/v2/roles')
 api.add_resource(Store, '/api/v2/store/<int:_id>', '/api/v2/store')
 api.add_resource(StoreList, '/api/v2/stores')
 
-api.add_resource(Employee, '/api/v2/employee/<int:_id>', '/api/v2/employee')
-api.add_resource(EmployeeList, '/api/v2/employees')
-
 api.add_resource(Product, '/api/v2/product/<int:_id>', '/api/v2/product')
 api.add_resource(ProductList, '/api/v2/products')
+
+api.add_resource(StoreProduct, '/api/v2/store/product/<int:_id>', '/api/v2/store/product')
+api.add_resource(StoreProductList, '/api/v2/store/products')
+
+api.add_resource(Employee, '/api/v2/employee/<int:_id>', '/api/v2/employee')
+api.add_resource(EmployeeList, '/api/v2/employees')
 
 api.add_resource(Client, '/api/v2/client/<int:_id>', '/api/v2/client')
 api.add_resource(ClientList, '/api/v2/clients')
