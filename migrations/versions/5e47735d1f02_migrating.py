@@ -1,8 +1,8 @@
-"""Migrating
+"""migrating
 
-Revision ID: e2a86014e6ac
+Revision ID: 5e47735d1f02
 Revises: 
-Create Date: 2021-03-14 11:45:32.971863
+Create Date: 2021-03-16 19:56:22.988038
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'e2a86014e6ac'
+revision = '5e47735d1f02'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -100,14 +100,14 @@ def upgrade():
     sa.Column('status', sa.Boolean(), nullable=False),
     sa.Column('created_at', sa.DateTime(), nullable=False),
     sa.Column('updated_at', sa.DateTime(), nullable=False),
-    sa.Column('tienda_id', sa.Integer(), nullable=True),
+    sa.Column('store_id', sa.Integer(), nullable=True),
     sa.Column('employee_id', sa.Integer(), nullable=True),
     sa.Column('client_id', sa.Integer(), nullable=True),
     sa.Column('rate_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['client_id'], ['client.id'], ),
     sa.ForeignKeyConstraint(['employee_id'], ['employee.id'], ),
     sa.ForeignKeyConstraint(['rate_id'], ['rate.id'], ),
-    sa.ForeignKeyConstraint(['tienda_id'], ['store.id'], ),
+    sa.ForeignKeyConstraint(['store_id'], ['store.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###

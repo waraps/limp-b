@@ -19,7 +19,6 @@ class StoreProductModel(db.Model):
                                 self.id, self.store_id, self.product_id, self.stock)
 
     def json(self):
-        print(self.products)
         return {
             'id': self.id,
             'store_id': self.store_id,

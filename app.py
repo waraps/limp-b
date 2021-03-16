@@ -31,7 +31,7 @@ CORS(app)
 api = Api(app)
 jwt = JWTManager(app)
 db.init_app(app)
-migrate = Migrate(app, db)
+migrate = Migrate(app, db, render_as_batch=True)
 
 # Routes
 api.add_resource(Rol, '/api/v2/rol/<int:_id>', '/api/v2/rol')

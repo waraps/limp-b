@@ -35,6 +35,11 @@ class Invoice(Resource):
         required=True,
         help='El campo rate_id no puede estar vacio'
     )
+    parser.add_argument('client_id',
+        type=int,
+        required=True,
+        help='El campo client_id no puede estar vacio'
+    )
 
     def get(self, _id):
         invoice = InvoiceModel.find_by_id(_id)
