@@ -10,6 +10,7 @@ class EmployeeModel(db.Model):
     mail = db.Column(db.String(120), nullable=False, unique=True)
     phone = db.Column(db.String(80), nullable=False)
     dni = db.Column(db.String(80), nullable=False, unique=True)
+    password = db.Column(db.String(80), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     
@@ -47,6 +48,10 @@ class EmployeeModel(db.Model):
     @classmethod
     def find_by_dni(cls, dni):
         return cls.query.filter_by(dni=dni).first()
+
+    @classmethod
+    def find_by_mail(cls, mail):
+        return cls.query.filter_by(mail=mail).first()
 
     @classmethod
     def find_all(cls):
