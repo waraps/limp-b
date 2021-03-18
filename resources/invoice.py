@@ -1,4 +1,5 @@
 from flask_restful import Resource, reqparse
+from flask_jwt_extended import jwt_required
 
 # Models
 from models.invoice import InvoiceModel
@@ -41,12 +42,14 @@ class Invoice(Resource):
         help='El campo client_id no puede estar vacio'
     )
 
+    @jwt_required()
     def get(self, _id):
         invoice = InvoiceModel.find_by_id(_id)
         if invoice:
             return invoice.json()
         return {'message': 'Factura no encontrada'}, 404
 
+    @jwt_required()
     def post(self):
         data = Invoice.parser.parse_args()
         if InvoiceModel.find_by_code(data['code']):
@@ -61,6 +64,7 @@ class Invoice(Resource):
         
         return invoice.json(), 201
 
+    @jwt_required()
     def put(self, _id):
         data = Invoice.parser.parse_args()
         invoice = InvoiceModel.find_by_id(_id)
@@ -79,6 +83,7 @@ class Invoice(Resource):
         
         return invoice.json(), 201
 
+    @jwt_required()
     def delete(self, _id):
         invoice = InvoiceModel.find_by_id(_id)
 
@@ -92,5 +97,6 @@ class Invoice(Resource):
 
 
 class InvoiceList(Resource):
+    @jwt_required()
     def get(self):
         return {'invoices': [invoice.json() for invoice in InvoiceModel.find_all()]}

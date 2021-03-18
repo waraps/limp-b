@@ -1,4 +1,5 @@
 from flask_restful import Resource, reqparse
+from flask_jwt_extended import jwt_required
 
 # Models
 from models.product import ProductModel
@@ -16,12 +17,14 @@ class Product(Resource):
         help='El campo precio no puede estar vacio'
     )
 
+    @jwt_required()
     def get(self, _id):
         product_id = ProductModel.find_by_id(_id)
         if product_id:
             return product_id.json(), 200
         return {'message': 'Producto no encontrado'}, 404
 
+    @jwt_required()
     def post(self):
         data = Product.parser.parse_args()
         if ProductModel.find_by_name(data['name']):
@@ -36,6 +39,7 @@ class Product(Resource):
 
         return product.json(), 201
 
+    @jwt_required()
     def put(self, _id):
         updated_product = Product.parser.parse_args()
         product = ProductModel.find_by_id(_id)
@@ -53,6 +57,7 @@ class Product(Resource):
 
         return product.json(), 201
 
+    @jwt_required()
     def delete(self, _id):
         product = ProductModel.find_by_id(_id)
         if product:
@@ -65,6 +70,7 @@ class Product(Resource):
 
  
 class ProductList(Resource):
+    @jwt_required()
     def get(self):
         return {'products': [product.json() for product in ProductModel.find_all()]}, 200
         

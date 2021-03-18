@@ -1,4 +1,5 @@
 from flask_restful import Resource, reqparse
+from flask_jwt_extended import jwt_required
 
 # Models
 from models.client import ClientModel
@@ -31,12 +32,14 @@ class Client(Resource):
         help='El campo cedula no puede estar vacio'
     )
 
+    @jwt_required()
     def get(self, _id):
         client = ClientModel.find_by_id(_id)
         if client:
             return client.json()
         return {'message': 'Cliente no encontrado'}, 404
 
+    @jwt_required()
     def post(self):
         data = Client.parser.parse_args()
         if ClientModel.find_by_dni(data['dni']):
@@ -51,6 +54,7 @@ class Client(Resource):
         
         return client.json(), 201
 
+    @jwt_required()
     def put(self, _id):
         data = Client.parser.parse_args()
         client = ClientModel.find_by_id(_id)
@@ -71,6 +75,7 @@ class Client(Resource):
         
         return client.json(), 201
 
+    @jwt_required()
     def delete(self, _id):
         client = ClientModel.find_by_id(_id)
 
@@ -84,5 +89,6 @@ class Client(Resource):
 
 
 class ClientList(Resource):
+    @jwt_required()
     def get(self):
         return {'clients': [client.json() for client in ClientModel.find_all()]}

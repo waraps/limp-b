@@ -1,4 +1,5 @@
 from flask_restful import Resource, reqparse
+from flask_jwt_extended import jwt_required
 
 # Models
 from models.store import StoreModel
@@ -27,12 +28,14 @@ class Store(Resource):
         help='El campo telefono no puede estar vacio'
     )
 
+    @jwt_required()
     def get(self, _id):
         store = StoreModel.find_by_id(_id)
         if store:
             return store.json()
         return {'message': 'Tienda no encontrada'}, 404
 
+    @jwt_required()
     def post(self):
         data = Store.parser.parse_args()
         if StoreModel.find_by_name(data['name']):
@@ -47,6 +50,7 @@ class Store(Resource):
         
         return store.json(), 201
 
+    @jwt_required()
     def put(self, _id):
         data = Store.parser.parse_args()
         store = StoreModel.find_by_id(_id)
@@ -66,6 +70,7 @@ class Store(Resource):
         
         return store.json(), 201
 
+    @jwt_required()
     def delete(self, _id):
         store = StoreModel.find_by_id(_id)
 
@@ -79,6 +84,7 @@ class Store(Resource):
 
 
 class StoreList(Resource):
+    @jwt_required()
     def get(self):
         return {'stores': [store.json() for store in StoreModel.find_all()]}
 
@@ -101,12 +107,14 @@ class StoreProduct(Resource):
         help='El campo stock no puede estar vacio'
     )
 
+    @jwt_required()
     def get(self, _id):        
         store_product = StoreProductModel.find_by_id(_id)
         if store_product:
             return store_product.json(), 200
         return {'message': 'Producto en tienda no encontrado'}, 404
 
+    @jwt_required()
     def post(self):
         data = StoreProduct.parser.parse_args()
         response = StoreProductModel.find_by_composite_id(data['store_id'], data['product_id'])
@@ -126,5 +134,6 @@ class StoreProduct(Resource):
 
 
 class StoreProductList(Resource):
+    @jwt_required()
     def get(self):
         return {'products': [store_product.json() for store_product in StoreProductModel.find_all()]}, 200

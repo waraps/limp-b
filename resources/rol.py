@@ -1,4 +1,5 @@
 from flask_restful import Resource, reqparse
+from flask_jwt_extended import jwt_required
 
 # Models
 from models.rol import RolModel
@@ -10,12 +11,15 @@ class Rol(Resource):
         required=True,
         help='El campo nombre no puede estar vacio'
     )
+
+    @jwt_required()
     def get(self, _id):
         rol = RolModel.find_by_id(_id)
         if rol:
             return rol.json(), 200
         return {'message': 'Rol no encontrado'}, 404
 
+    @jwt_required()
     def post(self):
         data = Rol.parser.parse_args()
         if RolModel.find_by_name(data['rol']):
@@ -30,6 +34,7 @@ class Rol(Resource):
 
         return rol.json(), 201
 
+    @jwt_required()
     def put(self, _id):
         updated_rol = Rol.parser.parse_args()
         rol = RolModel.find_by_id(_id)
@@ -46,6 +51,7 @@ class Rol(Resource):
 
         return rol.json(), 201
 
+    @jwt_required()
     def delete(self, _id):
         rol = RolModel.find_by_id(_id)
         if rol:
@@ -58,6 +64,7 @@ class Rol(Resource):
 
  
 class RolList(Resource):
+    @jwt_required()
     def get(self):
         return {'roles': [rol.json() for rol in RolModel.find_all()]}, 200
         
