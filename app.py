@@ -10,7 +10,7 @@ from flask_migrate import Migrate
 
 # Resources
 from resources.rol import Rol, RolList
-from resources.employee import Employee, EmployeeList
+from resources.employee import EmployeeRegister, EmployeeLogin, TokenRefresh, Employee, EmployeeList
 from resources.store import Store, StoreList, StoreProduct, StoreProductList
 from resources.product import Product, ProductList
 from resources.client import Client, ClientList
@@ -34,29 +34,42 @@ db.init_app(app)
 migrate = Migrate(app, db, render_as_batch=True)
 
 # Routes
+
+# Users
+api.add_resource(EmployeeLogin, '/api/v2/login')
+api.add_resource(EmployeeRegister, '/api/v2/register')
+api.add_resource(TokenRefresh, '/api/v2/refresh')
+
+# Roles
 api.add_resource(Rol, '/api/v2/rol/<int:_id>', '/api/v2/rol')
 api.add_resource(RolList, '/api/v2/roles')
 
+# Employees
+api.add_resource(Employee, '/api/v2/employee/<int:_id>')
+api.add_resource(EmployeeList, '/api/v2/employees')
+
+# Stores
 api.add_resource(Store, '/api/v2/store/<int:_id>', '/api/v2/store')
 api.add_resource(StoreList, '/api/v2/stores')
 
+# Products
 api.add_resource(Product, '/api/v2/product/<int:_id>', '/api/v2/product')
 api.add_resource(ProductList, '/api/v2/products')
 
 api.add_resource(StoreProduct, '/api/v2/store/product/<int:_id>', '/api/v2/store/product')
 api.add_resource(StoreProductList, '/api/v2/store/products')
 
-api.add_resource(Employee, '/api/v2/employee/<int:_id>', '/api/v2/employee')
-api.add_resource(EmployeeList, '/api/v2/employees')
-
-api.add_resource(Client, '/api/v2/client/<int:_id>', '/api/v2/client')
-api.add_resource(ClientList, '/api/v2/clients')
-
+# Rates
 api.add_resource(Rate, '/api/v2/rate/<int:_id>', '/api/v2/rate')
 api.add_resource(RateList, '/api/v2/rates')
 
+# Invoices
 api.add_resource(Invoice, '/api/v2/invoice/<int:_id>', '/api/v2/invoice')
 api.add_resource(InvoiceList, '/api/v2/invoices')
+
+# Clients
+api.add_resource(Client, '/api/v2/client/<int:_id>', '/api/v2/client')
+api.add_resource(ClientList, '/api/v2/clients')
 
 if __name__ == '__main__':
     app.run(
