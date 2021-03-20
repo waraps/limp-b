@@ -10,7 +10,7 @@ class EmployeeModel(db.Model):
     mail = db.Column(db.String(120), nullable=False, unique=True)
     phone = db.Column(db.String(80), nullable=False)
     dni = db.Column(db.String(80), nullable=False, unique=True)
-    password = db.Column(db.String(80), nullable=False)
+    password = db.Column(db.String(280), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     
